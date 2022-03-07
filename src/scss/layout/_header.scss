@@ -4,4 +4,82 @@
   background: linear-gradient(rgba(black, 0.3), transparent);
   // backdrop-filter: blur(5px);
   background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__inner {
+    width: $content-display-width;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__language-switcher {
+    display: flex;
+    float: left;
+
+    &-item {
+      color: white;
+      padding: $padding $padding * 3;
+      font-weight: bold;
+      font-size: 22px;
+      border: 3px solid transparent;
+      cursor: pointer;
+
+      &_active {
+        cursor: default;
+        border-color: $color-turquoise;
+        box-shadow: 0 0 16px rgba($color-turquoise, 0.6),
+          inset 0 0 16px rgba($color-turquoise, 0.6);
+        border-radius: 3px;
+      }
+    }
+  }
+
+  &__contacts-btn {
+    height: 40px;
+    line-height: 40px;
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+    position: relative;
+    padding: $padding $padding * 6;
+    cursor: pointer;
+
+    &-bg-line {
+      $thickness: 4px;
+      &_1 {
+        $bias-y: 20%;
+        width: $thickness;
+        height: #{$bias-y + 100%};
+        position: absolute;
+        left: 0;
+        top: -$bias-y;
+        background-color: $color-turquoise;
+        box-shadow: 0 0 16px 2px rgba($color-turquoise, 0.6);
+      }
+
+      &_2 {
+        width: 70%;
+        height: $thickness;
+        position: absolute;
+        left: 0;
+        top: -$thickness;
+        background-color: $color-turquoise;
+        box-shadow: 0 0 24px 4px rgba($color-turquoise, 0.6);
+      }
+
+      &_3 {
+        width: 70%;
+        height: $thickness;
+        position: absolute;
+        right: -10%;
+        bottom: -$thickness;
+        background-color: $color-pink;
+        box-shadow: 0 0 24px 4px rgba($color-pink, 0.6);
+      }
+    }
+  }
 }
