@@ -4,32 +4,22 @@
       <div class="skills__navigation">
         <h1 class="skills__navigation-title">WEB</h1>
         <h2
-          class="skills__navigation-subtitle skills__navigation-subtitle_active"
+          class="skills__navigation-subtitle"
+          :class="{
+            'skills__navigation-subtitle_active': active_skill_view == index,
+          }"
+          v-for="(skill, index) in skills"
+          :key="skill.id"
+          @click="active_skill_view = index"
         >
           <div
-            class="skills__navigation-subtitle-point skills__navigation-subtitle-point_active"
+            :class="{
+              'skills__navigation-subtitle-point_active':
+                active_skill_view == index,
+            }"
+            class="skills__navigation-subtitle-point"
           ></div>
-          HTML
-        </h2>
-        <h2 class="skills__navigation-subtitle">
-          <div class="skills__navigation-subtitle-point"></div>
-          CSS
-        </h2>
-        <h2 class="skills__navigation-subtitle">
-          <div class="skills__navigation-subtitle-point"></div>
-          JS
-        </h2>
-        <h2 class="skills__navigation-subtitle">
-          <div class="skills__navigation-subtitle-point"></div>
-          VUE
-        </h2>
-        <h2 class="skills__navigation-subtitle">
-          <div class="skills__navigation-subtitle-point"></div>
-          REACT
-        </h2>
-        <h2 class="skills__navigation-subtitle">
-          <div class="skills__navigation-subtitle-point"></div>
-          GITHUB
+          {{ skill.title.value }}
         </h2>
       </div>
       <div class="skills__content">
@@ -67,21 +57,11 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import ISkill from "@/interfaces/Skill";
+import ISkill, { ISkillWithState } from "@/interfaces/Skill";
 import Colors from "@/const/Colors";
+import Skills from "@/const/Skills";
 
-interface IStateForSkill {
-  underline: {
-    width: number;
-    bias_x: number;
-    color: string;
-  };
-  subskills: {
-    bias_x: number;
-  }[];
-}
-
-type ISkillWithState = IStateForSkill & ISkill;
+import DecorateSkillState from "@/decorators/DecorateSkillState";
 
 @Component({})
 export default class Home extends Vue {
@@ -106,68 +86,8 @@ export default class Home extends Vue {
     return () => Colors[Math.floor(Math.random() * Colors.length)];
   }
 
-  skills: ISkillWithState[] = [
-    {
-      id: Math.random(),
-      underline: {
-        width: 0,
-        bias_x: 0,
-        color: Colors[0],
-      },
-      title: {
-        value: "HTML",
-      },
-      subskills: [
-        {
-          bias_x: 0,
-          id: Math.random(),
-          title: {
-            value: "PUG",
-          },
-        },
-        {
-          bias_x: 0,
-          id: Math.random(),
-          title: {
-            value: "JSX&TSX",
-          },
-        },
-      ],
-    },
-    {
-      id: Math.random(),
-      underline: {
-        width: 0,
-        bias_x: 0,
-        color: Colors[0],
-      },
-      title: {
-        value: "CSS",
-      },
-      subskills: [
-        {
-          bias_x: 0,
-          id: Math.random(),
-          title: {
-            value: "SCSS&SASS",
-          },
-        },
-        {
-          bias_x: 0,
-          id: Math.random(),
-          title: {
-            value: "CSS ANIMATIONS",
-          },
-        },
-        {
-          bias_x: 0,
-          id: Math.random(),
-          title: {
-            value: "FLEXBOX",
-          },
-        },
-      ],
-    },
-  ];
+  active_skill_view: number = 0;
+
+  skills: ISkillWithState[] = Skills.map((skill) => DecorateSkillState(skill));
 }
 </script>
