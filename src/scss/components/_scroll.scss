@@ -1,0 +1,17 @@
+.scroll {
+  width: 16px;
+  height: 100vh;
+  position: fixed;
+  right: 0;
+  top: 0;
+  background-color: rgba($color-purple, 0.5);
+  user-select: none;
+
+  &__controller {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    background-color: $color-purple;
+    cursor: pointer;
+  }
+}
