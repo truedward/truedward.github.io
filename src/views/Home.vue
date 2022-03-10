@@ -3,6 +3,7 @@
     <Header />
     <WelcomeScreen />
     <Skills />
+    <Contacts />
   </div>
 </template>
 
@@ -11,12 +12,14 @@ import { Component, Vue } from "vue-property-decorator";
 import Header from "@/layout/Header.vue";
 import WelcomeScreen from "@/layout/WelcomeScreen.vue";
 import Skills from "@/layout/Skills.vue";
+import Contacts from "@/layout/Contacts.vue";
 
 @Component({
   components: {
     Header,
     WelcomeScreen,
     Skills,
+    Contacts,
   },
 })
 export default class Home extends Vue {}
