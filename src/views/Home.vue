@@ -22,5 +22,9 @@ import Contacts from "@/layout/Contacts.vue";
     Contacts,
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  mounted() {
+    this.$store.dispatch("scroll/setUp");
+  }
+}
 </script>
