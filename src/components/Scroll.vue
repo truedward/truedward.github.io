@@ -27,6 +27,7 @@ export default defineComponent({
       prev_pos: 0,
       current_pos: 0,
       active: false,
+      current_delta: 0,
     };
 
     let setUpControllerEventListeners = () => {
@@ -66,8 +67,17 @@ export default defineComponent({
     });
 
     let countControllerProperties = () => {
+      scroll_state.current_delta +=
+        (1 +
+          20 *
+            ((scroll_state.current_pos - scroll_state.prev_pos) /
+              window.innerHeight) -
+          scroll_state.current_delta) /
+        40;
       controller_height.value =
-        window.innerHeight * (window.innerHeight / document.body.scrollHeight);
+        window.innerHeight *
+        (window.innerHeight / document.body.scrollHeight) *
+        scroll_state.current_delta;
 
       controller_position.value =
         (window.innerHeight - controller_height.value) *
