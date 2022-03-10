@@ -13,8 +13,6 @@ let DecorateSkillState = (skill: ISkill): ISkillWithState => {
 
   let skill_with_state: ISkillWithState = Object.assign(state, skill);
 
-  console.log(skill_with_state);
-
   skill_with_state.subskills.forEach((subskill) => {
     subskill.bias_x = 0;
     subskill.id = Math.random();
