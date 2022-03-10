@@ -1,7 +1,7 @@
 <template>
-  <div class="skills">
-    <div class="skills__inner">
-      <div class="skills__navigation">
+  <div class="skills" ref="skill">
+    <div class="skills__inner" ref="skillInner">
+      <div class="skills__navigation" ref="skillNavigation">
         <h1 class="skills__navigation-title">WEB</h1>
         <h2
           class="skills__navigation-subtitle"
@@ -67,6 +67,53 @@ import DecorateSkillState from "@/decorators/DecorateSkillState";
 export default class Home extends Vue {
   mounted() {
     this.generateSkillState();
+
+    this.drawSkillNavigationPosition();
+  }
+
+  skill_navigation = {
+    current_pos: 0,
+    anim_to_pos: 0,
+  };
+
+  drawSkillNavigationPosition() {
+    this.countSkillNavigationPosition();
+    this.skill_navigation.current_pos +=
+      (this.skill_navigation.anim_to_pos - this.skill_navigation.current_pos) /
+      2;
+
+    let skillNavigation = this.$refs.skillNavigation as HTMLElement;
+
+    skillNavigation.style.top = this.skill_navigation.current_pos + "px";
+
+    window.requestAnimationFrame(this.drawSkillNavigationPosition);
+  }
+
+  countSkillNavigationPosition() {
+    let bias =
+      (window.innerHeight -
+        (this.$refs.skillNavigation as HTMLElement).offsetHeight) /
+      2;
+
+    if (
+      window.scrollY > (this.$refs.skill as HTMLElement).offsetTop - bias &&
+      window.scrollY <
+        (this.$refs.skill as HTMLElement).offsetTop +
+          (this.$refs.skill as HTMLElement).offsetHeight -
+          window.innerHeight
+    ) {
+      this.skill_navigation.anim_to_pos =
+        window.scrollY - (this.$refs.skill as HTMLElement).offsetTop + bias;
+    } else if (
+      window.scrollY >=
+      (this.$refs.skill as HTMLElement).offsetTop +
+        (this.$refs.skill as HTMLElement).offsetHeight -
+        window.innerHeight
+    ) {
+      return;
+    } else {
+      this.skill_navigation.anim_to_pos = 0;
+    }
   }
 
   generateSkillState() {
