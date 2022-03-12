@@ -23,7 +23,12 @@
         </h2>
       </div>
       <div class="skills__content">
-        <div class="skills__item" v-for="skill in skills" :key="skill.id">
+        <div
+          class="skills__item"
+          v-for="skill in skills"
+          :key="skill.id"
+          ref="skillItems"
+        >
           <div class="skills__item-title skills__item-title_active">
             <div
               class="skills__item-title-underline"
@@ -68,7 +73,16 @@ export default class Home extends Vue {
   mounted() {
     this.generateSkillState();
 
-    this.drawSkillNavigationPosition();
+    {
+      let draw = () => {
+        // draw&update methods
+        this.drawSkillNavigationPosition();
+        this.updateSkillNavigationActiveItem();
+        window.requestAnimationFrame(draw);
+      };
+
+      draw();
+    }
   }
 
   skill_navigation = {
@@ -85,8 +99,24 @@ export default class Home extends Vue {
     let skillNavigation = this.$refs.skillNavigation as HTMLElement;
 
     skillNavigation.style.top = this.skill_navigation.current_pos + "px";
+  }
 
-    window.requestAnimationFrame(this.drawSkillNavigationPosition);
+  updateSkillNavigationActiveItem() {
+    let skill_items = this.$refs.skillItems as HTMLElement[];
+    let skill = this.$refs.skill as HTMLElement;
+
+    let active_item = 0;
+
+    skill_items.forEach((item, index) => {
+      if (
+        window.scrollY >
+        item.offsetTop + skill.offsetTop - window.innerHeight / 2
+      ) {
+        active_item = index;
+      }
+    });
+
+    this.active_skill_view = active_item;
   }
 
   countSkillNavigationPosition() {
