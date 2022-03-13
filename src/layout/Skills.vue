@@ -1,7 +1,13 @@
 <template>
   <div class="skills" ref="skill">
     <div class="skills__inner" ref="skillInner">
-      <div class="skills__navigation" ref="skillNavigation">
+      <div
+        class="skills__navigation"
+        ref="skillNavigation"
+        :class="{
+          skills__navigation_active: skill_navigation_active,
+        }"
+      >
         <h1 class="skills__navigation-title">WEB</h1>
         <h2
           class="skills__navigation-subtitle"
@@ -10,7 +16,7 @@
           }"
           v-for="(skill, index) in skills"
           :key="skill.id"
-          @click="active_skill_view = index"
+          @click="scrollToSkill(index)"
         >
           <div
             :class="{
@@ -25,15 +31,20 @@
       <div class="skills__content">
         <div
           class="skills__item"
-          v-for="skill in skills"
+          v-for="(skill, index) in skills"
           :key="skill.id"
           ref="skillItems"
+          :class="{
+            skills__item_active: active_skill_view == index,
+          }"
         >
           <div class="skills__item-title skills__item-title_active">
             <div
               class="skills__item-title-underline"
               :style="{
-                transform: `translateX(${skill.underline.bias_x}px)`,
+                transform: `translateX(${
+                  active_skill_view == index ? skill.underline.bias_x : 0
+                }px)`,
                 width: `${skill.underline.width}px`,
                 backgroundColor: skill.underline.color,
               }"
@@ -42,13 +53,14 @@
           </div>
           <div
             class="skills__item-content"
-            v-for="subskill in skill.subskills"
+            v-for="(subskill, _index) in skill.subskills"
             :key="subskill.id"
           >
             <div
               class="skills__item-subtitle"
               :style="{
                 transform: `translateX(${subskill.bias_x}px)`,
+                transitionDelay: 0.2 + _index * 0.1 + 's',
               }"
             >
               {{ subskill.title.value }}
@@ -76,7 +88,6 @@ export default class Home extends Vue {
     {
       let draw = () => {
         // draw&update methods
-        this.drawSkillNavigationPosition();
         this.updateSkillNavigationActiveItem();
         window.requestAnimationFrame(draw);
       };
@@ -85,27 +96,21 @@ export default class Home extends Vue {
     }
   }
 
-  skill_navigation = {
-    current_pos: 0,
-    anim_to_pos: 0,
-  };
-
-  drawSkillNavigationPosition() {
-    this.countSkillNavigationPosition();
-    this.skill_navigation.current_pos +=
-      (this.skill_navigation.anim_to_pos - this.skill_navigation.current_pos) /
-      2;
-
-    let skillNavigation = this.$refs.skillNavigation as HTMLElement;
-
-    skillNavigation.style.top = this.skill_navigation.current_pos + "px";
-  }
-
   updateSkillNavigationActiveItem() {
     let skill_items = this.$refs.skillItems as HTMLElement[];
     let skill = this.$refs.skill as HTMLElement;
 
-    let active_item = 0;
+    let active_item: number | null = null;
+
+    if (
+      window.scrollY > skill.offsetTop - window.innerHeight / 4 &&
+      window.scrollY <
+        skill.offsetTop + skill.offsetHeight - window.innerHeight / 2
+    ) {
+      this.skill_navigation_active = true;
+    } else {
+      this.skill_navigation_active = false;
+    }
 
     skill_items.forEach((item, index) => {
       if (
@@ -119,31 +124,15 @@ export default class Home extends Vue {
     this.active_skill_view = active_item;
   }
 
-  countSkillNavigationPosition() {
-    let bias =
-      (window.innerHeight -
-        (this.$refs.skillNavigation as HTMLElement).offsetHeight) /
-      2;
+  scrollToSkill(index: number) {
+    let skill_items = this.$refs.skillItems as HTMLElement[];
+    let skill = this.$refs.skill as HTMLElement;
 
-    if (
-      window.scrollY > (this.$refs.skill as HTMLElement).offsetTop - bias &&
-      window.scrollY <
-        (this.$refs.skill as HTMLElement).offsetTop +
-          (this.$refs.skill as HTMLElement).offsetHeight -
-          window.innerHeight
-    ) {
-      this.skill_navigation.anim_to_pos =
-        window.scrollY - (this.$refs.skill as HTMLElement).offsetTop + bias;
-    } else if (
-      window.scrollY >=
-      (this.$refs.skill as HTMLElement).offsetTop +
-        (this.$refs.skill as HTMLElement).offsetHeight -
-        window.innerHeight
-    ) {
-      return;
-    } else {
-      this.skill_navigation.anim_to_pos = 0;
-    }
+    let position =
+      skill_items[index].offsetTop + skill.offsetTop - window.innerHeight / 6;
+    this.$store.commit("scroll/scrollToPosition", {
+      position,
+    });
   }
 
   generateSkillState() {
@@ -163,7 +152,9 @@ export default class Home extends Vue {
     return () => Colors[Math.floor(Math.random() * Colors.length)];
   }
 
-  active_skill_view: number = 0;
+  skill_navigation_active: boolean = false;
+
+  active_skill_view: number | null = null;
 
   skills: ISkillWithState[] = Skills.map((skill) => DecorateSkillState(skill));
 }

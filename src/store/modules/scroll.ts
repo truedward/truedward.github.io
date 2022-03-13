@@ -8,7 +8,23 @@ const scroll: Module<IStoreScrollState, {}> = {
     scroll_anim_to_pos: 0,
   },
   mutations: {
-    changeScrollAnimToPosition(state, { delta }: { delta: number }) {
+    updateScrollAnimToPosition(state, { delta }: { delta: number }) {
+      if (state.scroll_anim_to_pos + delta < 0) {
+        state.scroll_anim_to_pos = 0;
+
+        return;
+      }
+
+      if (
+        state.scroll_anim_to_pos + delta >
+        document.body.scrollHeight - window.innerHeight
+      ) {
+        state.scroll_anim_to_pos =
+          document.body.scrollHeight - window.innerHeight;
+
+        return;
+      }
+
       if (
         state.scroll_anim_to_pos + delta > 0 &&
         state.scroll_anim_to_pos + delta <
@@ -16,11 +32,18 @@ const scroll: Module<IStoreScrollState, {}> = {
       )
         state.scroll_anim_to_pos += delta;
     },
+    scrollToPosition(state, { position }: { position: number }) {
+      if (
+        position > 0 &&
+        position < document.body.scrollHeight - window.innerHeight
+      )
+        state.scroll_anim_to_pos = position;
+    },
   },
   actions: {
     setUpEventListeners(context) {
       window.addEventListener("wheel", (e) => {
-        context.commit("changeScrollAnimToPosition", { delta: e.deltaY });
+        context.commit("updateScrollAnimToPosition", { delta: e.deltaY });
       });
     },
     setUp(context) {
