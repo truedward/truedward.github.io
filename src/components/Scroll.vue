@@ -55,7 +55,7 @@ export default defineComponent({
               window.innerHeight) *
             document.body.scrollHeight;
 
-          store.commit("scroll/changeScrollAnimToPosition", {
+          store.commit("scroll/updateScrollAnimToPosition", {
             delta: delta,
           });
         }
