@@ -2,12 +2,14 @@
   <div class="header">
     <div class="header__inner">
       <div class="header__language-switcher">
-        <div
-          class="header__language-switcher-item header__language-switcher-item_active"
-        >
-          UA
-        </div>
-        <div class="header__language-switcher-item">EN</div>
+        <template v-if="false">
+          <div
+            class="header__language-switcher-item header__language-switcher-item_active"
+          >
+            UA
+          </div>
+          <div class="header__language-switcher-item">EN</div>
+        </template>
       </div>
       <div class="header__contacts-btn">
         <div class="header__contacts-btn-bg-line_1"></div>
