@@ -26,16 +26,28 @@ const scroll: Module<IStoreScrollState, {}> = {
       }
 
       if (
-        state.scroll_anim_to_pos + delta > 0 &&
-        state.scroll_anim_to_pos + delta <
+        state.scroll_anim_to_pos + delta >= 0 &&
+        state.scroll_anim_to_pos + delta <=
           document.body.scrollHeight - window.innerHeight
       )
         state.scroll_anim_to_pos += delta;
     },
     scrollToPosition(state, { position }: { position: number }) {
+      console.log(position, document.body.scrollHeight - window.innerHeight);
+      if (position < 0) {
+        state.scroll_anim_to_pos = 0;
+        return;
+      }
+
+      if (position > document.body.scrollHeight - window.innerHeight) {
+        state.scroll_anim_to_pos =
+          document.body.scrollHeight - window.innerHeight;
+        return;
+      }
+
       if (
-        position > 0 &&
-        position < document.body.scrollHeight - window.innerHeight
+        position >= 0 &&
+        position <= document.body.scrollHeight - window.innerHeight
       )
         state.scroll_anim_to_pos = position;
     },

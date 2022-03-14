@@ -1,5 +1,5 @@
 <template>
-  <div class="skills" ref="skill">
+  <div class="skills" ref="skill" v-if="filling">
     <div class="skills__inner" ref="skillInner">
       <div
         class="skills__navigation"
@@ -94,6 +94,9 @@ export default class Home extends Vue {
     {
       let draw = () => {
         // draw&update methods
+        if (!this.skills) {
+          return;
+        }
         this.countSkillNavigationBias();
         this.updateSkillNavigationActiveItem();
         window.requestAnimationFrame(draw);
@@ -106,6 +109,7 @@ export default class Home extends Vue {
   countSkillNavigationBias() {
     let skill_items = this.$refs.skillNavItems as HTMLElement[];
     let skills__navigation = this.$refs.skillNavigation as HTMLElement;
+
     if (this.active_skill_view !== null) {
       let item_bounding_client_rectangle =
         skill_items[this.active_skill_view].offsetTop;
@@ -157,16 +161,17 @@ export default class Home extends Vue {
   }
 
   generateSkillState() {
-    this.skills.forEach((skill, index) => {
-      skill.underline.bias_x =
-        (Math.random() * (index % 2 ? 1 : -1) + 0.5) * 80;
-      skill.underline.width = (Math.random() + 0.5) * 200;
-      skill.underline.color = this.randomColor();
+    if (this.skills)
+      this.skills.forEach((skill, index) => {
+        skill.underline.bias_x =
+          (Math.random() * (index % 2 ? 1 : -1) + 0.5) * 80;
+        skill.underline.width = (Math.random() + 0.5) * 200;
+        skill.underline.color = this.randomColor();
 
-      skill.subskills.forEach((subskill, index) => {
-        subskill.bias_x = Math.random() * (index % 2 ? 1 : -1) * 90;
+        skill.subskills.forEach((subskill, index) => {
+          subskill.bias_x = Math.random() * (index % 2 ? 1 : -1) * 90;
+        });
       });
-    });
   }
 
   get randomColor() {
@@ -179,7 +184,11 @@ export default class Home extends Vue {
 
   active_skill_view: number | null = null;
 
-  get skills(): ISkillWithState[] {
+  get skills(): ISkillWithState[] | false {
+    if (!this.filling) {
+      return false;
+    }
+
     return this.filling.skills.map((skill) => DecorateSkillState(skill));
   }
 }

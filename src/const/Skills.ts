@@ -113,7 +113,7 @@ let Skills: ISkillBlock[] = [
     skills: [
       {
         tag: "🧐",
-        title: "GITHUB",
+        title: "GIT",
         subskills: [
           {
             title: 'File status "lifecycle"',
@@ -129,6 +129,9 @@ let Skills: ISkillBlock[] = [
           },
           {
             title: "Pull Request",
+          },
+          {
+            title: "Fork",
           },
         ],
       },
