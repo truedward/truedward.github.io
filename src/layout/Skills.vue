@@ -39,7 +39,8 @@
           :key="skill.id"
           ref="skillItems"
           :class="{
-            skills__item_active: active_skill_view == index,
+            skills__item_active:
+              active_skill_view == index && skill_navigation_active,
           }"
         >
           <div class="skills__item-title skills__item-title_active">
