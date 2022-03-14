@@ -1,131 +1,184 @@
-import ISkill from "@/interfaces/Skill";
+import { ISkillBlock } from "@/interfaces/Skill";
 
-let skills: ISkill[] = [
+let Skills: ISkillBlock[] = [
   {
-    title: {
-      value: "HTML",
-    },
-    subskills: [
+    title: "WEB",
+    skills: [
       {
-        title: {
-          value: "PUG",
-        },
+        tag: "🙃",
+        title: "HTML",
+        subskills: [
+          {
+            title: "PUG",
+          },
+          {
+            title: "JSX&TSX",
+          },
+          {
+            title: "DOM",
+          },
+        ],
       },
       {
-        title: {
-          value: "JSX&TSX",
-        },
+        tag: "🤩",
+        title: "CSS",
+        subskills: [
+          {
+            title: "SCSS&SASS",
+          },
+          {
+            title: "CSS Animations",
+          },
+          {
+            title: "FlexBox",
+          },
+        ],
       },
       {
-        title: {
-          value: "DOM",
-        },
+        tag: "🤯",
+        title: "JS",
+        subskills: [
+          {
+            title: "TypeScript",
+          },
+          {
+            title: "Lodash",
+          },
+          {
+            title: "Async",
+          },
+          {
+            title: "Axios",
+          },
+          {
+            title: "Any animations in pure js",
+          },
+        ],
+      },
+      {
+        tag: "🤠",
+        title: "VUE",
+        subskills: [
+          {
+            title: "Router",
+          },
+          {
+            title: "Class-Based components",
+          },
+          {
+            title: "VUEX",
+          },
+          {
+            title: "Vue best practice",
+          },
+          {
+            title: "Vue with typescript",
+          },
+        ],
+      },
+      {
+        tag: "🥵",
+        title: "React",
+        subskills: [
+          {
+            title: "TSX Syntax",
+          },
+          {
+            title: "React Component Lifecycle",
+          },
+          {
+            title: "MobX",
+          },
+        ],
+      },
+      {
+        tag: "😃",
+        title: "THREE JS",
+        subskills: [
+          {
+            title: "Competent layout of a large number of loaders",
+          },
+          {
+            title: "Linking scene state to store state",
+          },
+          {
+            title: "Working with native animations",
+          },
+        ],
       },
     ],
   },
   {
-    title: {
-      value: "CSS",
-    },
-    subskills: [
+    title: "OTHER",
+    skills: [
       {
-        title: {
-          value: "SCSS&SASS",
-        },
+        tag: "🧐",
+        title: "GITHUB",
+        subskills: [
+          {
+            title: 'File status "lifecycle"',
+          },
+          {
+            title: "Init",
+          },
+          {
+            title: "Merge",
+          },
+          {
+            title: "Rebase",
+          },
+          {
+            title: "Pull Request",
+          },
+        ],
       },
       {
-        title: {
-          value: "CSS Animations",
-        },
+        tag: "😏",
+        title: "AFFINITY&FIGMA",
+        subskills: [
+          {
+            title: "Create and read templates",
+          },
+          {
+            title: "Base instruments",
+          },
+        ],
       },
       {
-        title: {
-          value: "FlexBox",
-        },
-      },
-    ],
-  },
-  {
-    title: {
-      value: "JS",
-    },
-    subskills: [
-      {
-        title: {
-          value: "TypeScript",
-        },
-      },
-      {
-        title: {
-          value: "Lodash",
-        },
+        tag: "😍",
+        title: "VS Code",
+        subskills: [
+          {
+            title: "Source controll",
+          },
+          {
+            title: "UI",
+          },
+          {
+            title: "Vetur + Emmet",
+          },
+          {
+            title: "Search instrument",
+          },
+        ],
       },
       {
-        title: {
-          value: "Async",
-        },
-      },
-      {
-        title: {
-          value: "Axios",
-        },
-      },
-    ],
-  },
-  {
-    title: {
-      value: "VUE",
-    },
-    subskills: [
-      {
-        title: {
-          value: "Router",
-        },
-      },
-      {
-        title: {
-          value: "Class-Based components",
-        },
-      },
-      {
-        title: {
-          value: "VUEX",
-        },
-      },
-      {
-        title: {
-          value: "Vue best practice",
-        },
-      },
-      {
-        title: {
-          value: "Vue with typescript",
-        },
-      },
-    ],
-  },
-  {
-    title: {
-      value: "React",
-    },
-    subskills: [
-      {
-        title: {
-          value: "TSX Syntax",
-        },
-      },
-      {
-        title: {
-          value: "React Component Lifecycle",
-        },
-      },
-      {
-        title: {
-          value: "MobX",
-        },
+        tag: "(Hobbie)",
+        title: "FLUTTER",
+        subskills: [
+          {
+            title: "DART",
+          },
+          {
+            title: "Async&Await 😇",
+          },
+          {
+            title: "API integration with user interface",
+          },
+        ],
       },
     ],
   },
 ];
 
-export default skills;
+export default Skills;

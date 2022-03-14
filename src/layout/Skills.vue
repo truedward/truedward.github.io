@@ -8,7 +8,7 @@
           skills__navigation_active: skill_navigation_active,
         }"
       >
-        <h1 class="skills__navigation-title">WEB</h1>
+        <h1 class="skills__navigation-title">{{ filling.title }}</h1>
         <h2
           class="skills__navigation-subtitle"
           :class="{
@@ -25,7 +25,7 @@
             }"
             class="skills__navigation-subtitle-point"
           ></div>
-          {{ skill.title.value }}
+          {{ skill.title }}
         </h2>
       </div>
       <div class="skills__content">
@@ -49,7 +49,7 @@
                 backgroundColor: skill.underline.color,
               }"
             ></div>
-            {{ skill.title.value }}
+            {{ skill.title }} <span v-if="skill.tag" v-html="skill.tag"></span>
           </div>
           <div
             class="skills__item-content"
@@ -62,9 +62,8 @@
                 transform: `translateX(${subskill.bias_x}px)`,
                 transitionDelay: 0.2 + _index * 0.1 + 's',
               }"
-            >
-              {{ subskill.title.value }}
-            </div>
+              v-html="subskill.title"
+            ></div>
           </div>
         </div>
       </div>
@@ -73,15 +72,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import ISkill, { ISkillWithState } from "@/interfaces/Skill";
+import { Component, Vue, Prop } from "vue-property-decorator";
+import ISkill, { ISkillWithState, ISkillBlock } from "@/interfaces/Skill";
 import Colors from "@/const/Colors";
-import Skills from "@/const/Skills";
 
 import DecorateSkillState from "@/decorators/DecorateSkillState";
 
 @Component({})
 export default class Home extends Vue {
+  @Prop({ type: Object })
+  filling!: ISkillBlock;
+
   mounted() {
     this.generateSkillState();
 
@@ -156,6 +157,8 @@ export default class Home extends Vue {
 
   active_skill_view: number | null = null;
 
-  skills: ISkillWithState[] = Skills.map((skill) => DecorateSkillState(skill));
+  get skills(): ISkillWithState[] {
+    return this.filling.skills.map((skill) => DecorateSkillState(skill));
+  }
 }
 </script>
