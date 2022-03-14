@@ -7,6 +7,9 @@
         :class="{
           skills__navigation_active: skill_navigation_active,
         }"
+        :style="{
+          transform: `translateY(calc(-50% + ${this.skill_navigation_bias}px))`,
+        }"
       >
         <h1 class="skills__navigation-title">{{ filling.title }}</h1>
         <h2
@@ -17,6 +20,7 @@
           v-for="(skill, index) in skills"
           :key="skill.id"
           @click="scrollToSkill(index)"
+          ref="skillNavItems"
         >
           <div
             :class="{
@@ -89,11 +93,26 @@ export default class Home extends Vue {
     {
       let draw = () => {
         // draw&update methods
+        this.countSkillNavigationBias();
         this.updateSkillNavigationActiveItem();
         window.requestAnimationFrame(draw);
       };
 
       draw();
+    }
+  }
+
+  countSkillNavigationBias() {
+    let skill_items = this.$refs.skillNavItems as HTMLElement[];
+    let skills__navigation = this.$refs.skillNavigation as HTMLElement;
+    if (this.active_skill_view !== null) {
+      let item_bounding_client_rectangle =
+        skill_items[this.active_skill_view].offsetTop;
+      this.skill_navigation_bias +=
+        (skills__navigation.offsetHeight / 2 -
+          item_bounding_client_rectangle -
+          this.skill_navigation_bias) /
+        20;
     }
   }
 
@@ -104,7 +123,7 @@ export default class Home extends Vue {
     let active_item: number | null = null;
 
     if (
-      window.scrollY > skill.offsetTop - window.innerHeight / 4 &&
+      window.scrollY > skill.offsetTop - window.innerHeight / 2 &&
       window.scrollY <
         skill.offsetTop + skill.offsetHeight - window.innerHeight / 2
     ) {
@@ -152,6 +171,8 @@ export default class Home extends Vue {
   get randomColor() {
     return () => Colors[Math.floor(Math.random() * Colors.length)];
   }
+
+  skill_navigation_bias: number = 0;
 
   skill_navigation_active: boolean = false;
 

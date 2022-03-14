@@ -74,18 +74,21 @@
     position: fixed;
     padding-top: calc(76px / 1.2);
     left: calc((100vw - #{$content-display-width}) / 2);
-    top: 150px;
+    top: 50%;
+    transform-origin: center center;
     height: auto;
     width: 200px;
     visibility: hidden;
     opacity: 0;
     user-select: none;
-    transition: 0.2s;
+    transition: 0.3s;
+    transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 
     &_active {
+      transition: 0.5s;
       visibility: visible;
       opacity: 1;
-      transition: 0.5s;
+      transition-property: opacity, border;
     }
 
     &-title {
