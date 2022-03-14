@@ -7,8 +7,11 @@
         :class="{
           skills__navigation_active: skill_navigation_active,
         }"
+        :style="{
+          transform: `translateY(calc(-50% + ${this.skill_navigation_bias}px))`,
+        }"
       >
-        <h1 class="skills__navigation-title">WEB</h1>
+        <h1 class="skills__navigation-title">{{ filling.title }}</h1>
         <h2
           class="skills__navigation-subtitle"
           :class="{
@@ -17,6 +20,7 @@
           v-for="(skill, index) in skills"
           :key="skill.id"
           @click="scrollToSkill(index)"
+          ref="skillNavItems"
         >
           <div
             :class="{
@@ -25,7 +29,7 @@
             }"
             class="skills__navigation-subtitle-point"
           ></div>
-          {{ skill.title.value }}
+          {{ skill.title }}
         </h2>
       </div>
       <div class="skills__content">
@@ -49,7 +53,7 @@
                 backgroundColor: skill.underline.color,
               }"
             ></div>
-            {{ skill.title.value }}
+            {{ skill.title }} <span v-if="skill.tag" v-html="skill.tag"></span>
           </div>
           <div
             class="skills__item-content"
@@ -62,9 +66,8 @@
                 transform: `translateX(${subskill.bias_x}px)`,
                 transitionDelay: 0.2 + _index * 0.1 + 's',
               }"
-            >
-              {{ subskill.title.value }}
-            </div>
+              v-html="subskill.title"
+            ></div>
           </div>
         </div>
       </div>
@@ -73,26 +76,43 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import ISkill, { ISkillWithState } from "@/interfaces/Skill";
+import { Component, Vue, Prop } from "vue-property-decorator";
+import ISkill, { ISkillWithState, ISkillBlock } from "@/interfaces/Skill";
 import Colors from "@/const/Colors";
-import Skills from "@/const/Skills";
 
 import DecorateSkillState from "@/decorators/DecorateSkillState";
 
 @Component({})
 export default class Home extends Vue {
+  @Prop({ type: Object })
+  filling!: ISkillBlock;
+
   mounted() {
     this.generateSkillState();
 
     {
       let draw = () => {
         // draw&update methods
+        this.countSkillNavigationBias();
         this.updateSkillNavigationActiveItem();
         window.requestAnimationFrame(draw);
       };
 
       draw();
+    }
+  }
+
+  countSkillNavigationBias() {
+    let skill_items = this.$refs.skillNavItems as HTMLElement[];
+    let skills__navigation = this.$refs.skillNavigation as HTMLElement;
+    if (this.active_skill_view !== null) {
+      let item_bounding_client_rectangle =
+        skill_items[this.active_skill_view].offsetTop;
+      this.skill_navigation_bias +=
+        (skills__navigation.offsetHeight / 2 -
+          item_bounding_client_rectangle -
+          this.skill_navigation_bias) /
+        20;
     }
   }
 
@@ -103,7 +123,7 @@ export default class Home extends Vue {
     let active_item: number | null = null;
 
     if (
-      window.scrollY > skill.offsetTop - window.innerHeight / 4 &&
+      window.scrollY > skill.offsetTop - window.innerHeight / 2 &&
       window.scrollY <
         skill.offsetTop + skill.offsetHeight - window.innerHeight / 2
     ) {
@@ -152,10 +172,14 @@ export default class Home extends Vue {
     return () => Colors[Math.floor(Math.random() * Colors.length)];
   }
 
+  skill_navigation_bias: number = 0;
+
   skill_navigation_active: boolean = false;
 
   active_skill_view: number | null = null;
 
-  skills: ISkillWithState[] = Skills.map((skill) => DecorateSkillState(skill));
+  get skills(): ISkillWithState[] {
+    return this.filling.skills.map((skill) => DecorateSkillState(skill));
+  }
 }
 </script>

@@ -14,12 +14,14 @@ export interface IStateForSkill {
 export type ISkillWithState = IStateForSkill & ISkill;
 
 export default interface ISkill {
-  title: {
-    value: string;
-  };
+  tag?: string;
+  title: string;
   subskills: {
-    title: {
-      value: string;
-    };
+    title: string;
   }[];
+}
+
+export interface ISkillBlock {
+  title: string;
+  skills: ISkill[];
 }
