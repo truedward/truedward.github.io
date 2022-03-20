@@ -1,0 +1,50 @@
+.document {
+  padding: 60px 0;
+  text-align: center;
+
+  h1 {
+    color: white;
+    font-size: 36px;
+    margin-bottom: $margin * 4;
+  }
+
+  h2 {
+    color: white;
+    margin-bottom: $margin * 2;
+    font-size: 24px;
+    display: inline-block;
+    margin-left: $margin * 3;
+    margin-top: 16px;
+  }
+
+  h3 {
+    color: white;
+    margin-bottom: $margin * 2;
+    font-size: 24px;
+    display: inline-block;
+    margin-left: $margin * 5;
+    margin-top: 8px;
+  }
+
+  a {
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    margin-left: $margin * 8;
+
+    small {
+      font-size: 12px;
+    }
+  }
+
+  p {
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    margin-left: $margin * 8;
+
+    small {
+      font-size: 12px;
+    }
+  }
+}

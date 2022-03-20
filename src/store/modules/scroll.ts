@@ -33,7 +33,6 @@ const scroll: Module<IStoreScrollState, {}> = {
         state.scroll_anim_to_pos += delta;
     },
     scrollToPosition(state, { position }: { position: number }) {
-      console.log(position, document.body.scrollHeight - window.innerHeight);
       if (position < 0) {
         state.scroll_anim_to_pos = 0;
         return;

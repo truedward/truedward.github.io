@@ -128,6 +128,7 @@ export default class Home extends Vue {
     let active_item: number | null = null;
 
     if (
+      skill &&
       window.scrollY > skill.offsetTop - window.innerHeight / 2 &&
       window.scrollY <
         skill.offsetTop + skill.offsetHeight - window.innerHeight / 2

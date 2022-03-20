@@ -1,15 +1,25 @@
 <template>
   <div class="header">
     <div class="header__inner">
-      <div class="header__language-switcher">
-        <template v-if="false">
-          <div
-            class="header__language-switcher-item header__language-switcher-item_active"
-          >
-            UA
-          </div>
-          <div class="header__language-switcher-item">EN</div>
-        </template>
+      <div class="header__switcher">
+        <div
+          class="header__switcher-item"
+          :class="{
+            'header__switcher-item_active': readMode,
+          }"
+          @click="activateReadMode"
+        >
+          SIMPLE
+        </div>
+        <div
+          @click="deactivateReadMode"
+          class="header__switcher-item"
+          :class="{
+            'header__switcher-item_active': !readMode,
+          }"
+        >
+          GALLANT
+        </div>
       </div>
       <div class="header__contacts-btn" @click="scrollToContacts">
         <div class="header__contacts-btn-bg-line_1"></div>
@@ -27,10 +37,20 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component
 export default class Header extends Vue {
   scrollToContacts() {
-    console.log(document.body.scrollHeight - window.innerHeight);
     this.$store.commit("scroll/scrollToPosition", {
       position: document.body.scrollHeight - window.innerHeight,
     });
+  }
+
+  get readMode(): boolean {
+    return this.$route.name == "TextView";
+  }
+
+  activateReadMode() {
+    this.$router.push({ name: "TextView" });
+  }
+  deactivateReadMode() {
+    this.$router.push({ name: "Home" });
   }
 }
 </script>

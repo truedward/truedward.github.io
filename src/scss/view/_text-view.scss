@@ -1,0 +1,6 @@
+.text-view {
+  &__inner {
+    width: $content-display-width;
+    margin-left: calc(50% - #{$content-display-width / 2});
+  }
+}
