@@ -2,6 +2,9 @@ interface IContact {
   link: string;
   text: string;
   subtext?: string;
+  params?: {
+    link_view?: boolean;
+  };
 }
 
 interface IContactList {

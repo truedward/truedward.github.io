@@ -21,19 +21,31 @@ let Contacts: IContactLayout = [
       {
         text: "LINKEDIN",
         link: "https://www.linkedin.com/in/edward-prykhozhay/",
+        params: {
+          link_view: true,
+        },
       },
       {
         text: "GITHUB",
         link: "https://github.com/truedward/",
+        params: {
+          link_view: true,
+        },
       },
       {
         text: "TELEGRAM",
         subtext: "Priority",
         link: "https://t.me/truedward",
+        params: {
+          link_view: true,
+        },
       },
       {
         text: "INSTAGRAM",
         link: "https://www.instagram.com/true.ed/",
+        params: {
+          link_view: true,
+        },
       },
     ],
   },

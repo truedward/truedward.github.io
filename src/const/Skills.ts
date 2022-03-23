@@ -163,6 +163,9 @@ let Skills: ISkillBlock[] = [
           {
             title: "Search instrument",
           },
+          {
+            title: "...",
+          },
         ],
       },
       {
