@@ -28,6 +28,35 @@ export default defineComponent({
       current_pos: 0,
       active: false,
       current_delta: 0,
+      touches: {
+        prev: 0,
+        current_pos: 0,
+      },
+    };
+
+    let setUpTouchEventListeners = () => {
+      window.addEventListener("touchstart", (e) => {
+        scroll_state.touches.current_pos = e.touches[0].clientY;
+      });
+
+      window.addEventListener("touchmove", (e) => {
+        scroll_state.touches.prev = scroll_state.touches.current_pos;
+        scroll_state.touches.current_pos = e.touches[0].clientY;
+
+        store.commit("scroll/updateScrollAnimToPosition", {
+          delta: scroll_state.touches.prev - scroll_state.touches.current_pos,
+        });
+      });
+
+      window.addEventListener("touchend", (e) => {
+        scroll_state.touches.prev = 0;
+        scroll_state.touches.current_pos = 0;
+      });
+
+      window.addEventListener("touchcancel", (e) => {
+        scroll_state.touches.prev = 0;
+        scroll_state.touches.current_pos = 0;
+      });
     };
 
     let setUpControllerEventListeners = () => {
@@ -64,6 +93,7 @@ export default defineComponent({
 
     onMounted(() => {
       setUpControllerEventListeners();
+      setUpTouchEventListeners();
     });
 
     let countControllerProperties = () => {
