@@ -8,6 +8,8 @@
 
   &__inner {
     width: $content-display-width;
+    box-sizing: border-box;
+    padding: 0 $content-display-padding;
     height: 100%;
     position: relative;
   }
@@ -23,7 +25,15 @@
       right: 0;
       top: -$padding * 40;
       left: $padding * 60;
-      right: -$padding * 14;
+      right: -$padding * 14 + $content-display-padding;
+
+      @media screen and (max-width: #{$content-display-width}) {
+        right: -$padding * 10 + $content-display-padding;
+        left: auto;
+        width: 70%;
+        bottom: $padding * 84;
+        top: auto;
+      }
     }
 
     &-title {
@@ -33,7 +43,7 @@
       position: absolute;
       font-weight: bold;
       bottom: $padding * 74;
-      right: 0;
+      right: $content-display-padding;
       text-shadow: 0 0 24px black;
 
       span {
@@ -70,6 +80,10 @@
     &-photo {
       width: 90%;
       margin-top: -20px;
+
+      @media screen and (max-width: #{$content-display-width}) {
+        margin-top: 0;
+      }
     }
   }
 }

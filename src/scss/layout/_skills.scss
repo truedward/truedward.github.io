@@ -2,15 +2,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 $content-display-padding;
 
   &__inner {
-    width: $content-display-width;
+    width: $content-small-desktop-width;
+    box-sizing: border-box;
     height: 100%;
     margin: 0 $padding * 80;
     display: flex;
     justify-content: space-evenly;
     align-items: flex-start;
     position: relative;
+
+    @media screen and (max-width: #{$content-small-desktop-width}) {
+      width: 100%;
+      padding: 0 $padding * 16 0 40vw;
+    }
   }
 
   &__content {
@@ -20,6 +27,10 @@
     align-items: center;
     flex-direction: column;
     padding-left: 20%;
+
+    @media screen and (max-width: #{$content-small-desktop-width}) {
+      width: 30vw;
+    }
   }
 
   &__item {
@@ -74,7 +85,9 @@
     border-left: 4px solid $color-purple;
     position: fixed;
     padding-top: calc(76px / 1.2);
-    left: calc((100vw - #{$content-display-width}) / 2);
+    left: calc(
+      (100vw - #{$content-small-desktop-width}) / 2 + #{$content-display-padding}
+    );
     top: 50%;
     transform-origin: center center;
     height: auto;
@@ -85,6 +98,10 @@
     transition: 0.3s;
     transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
     z-index: 0;
+
+    @media screen and (max-width: #{$content-small-desktop-width}) {
+      left: 0;
+    }
 
     &_active {
       transition: 0.5s;

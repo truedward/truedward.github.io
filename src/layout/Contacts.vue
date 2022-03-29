@@ -1,10 +1,6 @@
 <template>
   <div class="contacts">
-    <img
-      class="contacts__background"
-      src="@/assets/contacts-background.svg"
-      alt=""
-    />
+    <img class="contacts__background" :src="background_path" alt="" />
     <div class="contacts__list">
       <template v-for="(contact_block, k) in contacts">
         <span class="contacts__list-title" :key="k + 'span'">{{
@@ -31,10 +27,39 @@
 <script lang="ts">
 import Vue from "vue";
 import Contacts from "@/const/Contacts";
+import Breakpoints from "@/const/Breakpoints";
+const breakpoints_background_image_map = {
+  [Breakpoints.mobile_tablet]: require("@/assets/contacts/contacts-background-tablet.svg"),
+  [Breakpoints.tablet_desktop]: require("@/assets/contacts/contacts-background-desktop.svg"),
+};
 export default Vue.extend({
   name: "Contacts",
   data: () => ({
     contacts: Contacts,
+    background_path: require("@/assets/contacts/contacts-background-tablet.svg"),
   }),
+  mounted() {
+    this.updateComponentBackground();
+
+    window.addEventListener("resize", () => {
+      this.updateComponentBackground();
+    });
+  },
+  methods: {
+    updateComponentBackground() {
+      if (
+        window.innerWidth > Breakpoints.mobile_tablet &&
+        window.innerWidth <= Breakpoints.tablet_desktop
+      ) {
+        this.background_path =
+          breakpoints_background_image_map[Breakpoints.mobile_tablet];
+      }
+
+      if (window.innerWidth > Breakpoints.tablet_desktop) {
+        this.background_path =
+          breakpoints_background_image_map[Breakpoints.tablet_desktop];
+      }
+    },
+  },
 });
 </script>
